@@ -1,0 +1,10 @@
+{
+  "name": "aoc-2024",
+  "type": "module",
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "bun-types": "latest",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2"
+  }
+}
