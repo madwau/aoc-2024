@@ -47,6 +47,10 @@ export function zip<T, U>(a: T[], b: U[]): [T, U][] {
   return a.map((item, index) => [item, b[index]]);
 }
 
+export function zipWith<T, U, V>(a: T[], b: U[], fn: (a: T, b: U) => V): V[] {
+  return a.map((item, index) => fn(item, b[index]));
+}
+
 export function tally<T extends string | number | symbol>(array: T[]): Record<T, number> {
   return array.reduce(
     (acc, item) => {
