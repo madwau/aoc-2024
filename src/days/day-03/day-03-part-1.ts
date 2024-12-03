@@ -1,18 +1,16 @@
 import { readLines } from '../../utils/file';
 
-const MUL_REGEX = /mul\((\d+),(\d+)\)/g;
+const REGEX = /mul\((\d+),(\d+)\)/g;
 
 function sumMuls(text: string) {
   let sum = 0;
   let match;
-  while ((match = MUL_REGEX.exec(text)) !== null) {
-    const a = parseInt(match[1]);
-    const b = parseInt(match[2]);
-    sum += a * b;
+  while ((match = REGEX.exec(text)) !== null) {
+    sum += Number(match[1]) * Number(match[2]);
   }
   return sum;
 }
 
-const lines = await readLines('day-03', 'sample');
+const lines = await readLines('day-03', 'input');
 
 console.log(sumMuls(lines.join()));
