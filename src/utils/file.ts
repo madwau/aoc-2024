@@ -1,11 +1,19 @@
+import * as assert from 'node:assert';
+
 function inputFilePath(day: string, file: string) {
   return `src/days/${day}/inputs/${file}.txt`;
 }
 
-export async function readLines(day: string, file: string) {
+export async function readLines(day: string, file: string): Promise<string[]> {
   const filePath = inputFilePath(day, file);
   const text = await Bun.file(filePath).text();
   return text.trim().split('\n');
+}
+
+export async function readLine(day: string, file: string): Promise<string> {
+  const lines = await readLines(day, file);
+  assert.strictEqual(lines.length, 1);
+  return lines[0];
 }
 
 export async function readNumericLines<T extends number[][] = number[][]>(
