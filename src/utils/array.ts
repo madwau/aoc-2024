@@ -148,3 +148,14 @@ export function binaryInsert<T>(array: T[], value: T, compare: (a: T, b: T) => n
 
   array.splice(low, 0, value);
 }
+
+export function directionalSlice<T>(
+  array: T[],
+  start: number,
+  length: number,
+  direction: 'asc' | 'desc',
+): T[] {
+  return direction === 'asc'
+    ? array.slice(start, start + length)
+    : array.slice(start - length + 1, start + 1).reverse();
+}
