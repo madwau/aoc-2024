@@ -20,4 +20,7 @@ touch "$BASE_DIR/inputs/input.txt"
 touch "$BASE_DIR/inputs/sample.txt"
 touch "$BASE_DIR/$DAY_NUMBER-part-1.ts"
 
+# Copy the template file contents to the new files
+cat src/templates/day/part-1.ts | sed "s/DAY_NUMBER/$DAY_NUMBER/g" > "$BASE_DIR/$DAY_NUMBER-part-1.ts"
+
 echo "Folder and files for $DAY_NUMBER created successfully!"
