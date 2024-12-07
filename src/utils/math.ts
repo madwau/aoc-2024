@@ -30,6 +30,12 @@ export function pairs<T>(array: T[]): [T, T][] {
   return array.flatMap((item, index) => array.slice(index + 1).map<[T, T]>(other => [item, other]));
 }
 
+export function cartesianPower<T>(array: T[], size: number): T[][] {
+  return size === 0
+    ? [[]]
+    : array.flatMap(item => cartesianPower(array, size - 1).map(subarray => [item, ...subarray]));
+}
+
 export function hexToDec(hex: string): number {
   return parseInt(hex, 16);
 }
