@@ -159,3 +159,15 @@ export function directionalSlice<T>(
     ? array.slice(start, start + length)
     : array.slice(start - length + 1, start + 1).reverse();
 }
+
+export function groupBy<T, K extends keyof any>(array: T[], key: (item: T) => K): Record<K, T[]> {
+  return array.reduce(
+    (acc, item) => {
+      const group = key(item);
+      if (!acc[group]) acc[group] = [];
+      acc[group].push(item);
+      return acc;
+    },
+    {} as Record<K, T[]>,
+  );
+}

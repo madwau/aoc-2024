@@ -14,6 +14,16 @@ export class HashSet<T> {
     this.set = new Set(objs?.map(this.hash));
   }
 
+  static merge<T>(sets: HashSet<T>[]): HashSet<T> {
+    const result = new HashSet<T>();
+    for (const set of sets) {
+      for (const hash of set.set) {
+        result.addHash(hash);
+      }
+    }
+    return result;
+  }
+
   add(obj: T) {
     return this.set.add(this.hash(obj));
   }
@@ -28,5 +38,9 @@ export class HashSet<T> {
 
   private hash(obj: T): string {
     return JSON.stringify(obj);
+  }
+
+  private addHash(hash: string) {
+    return this.set.add(hash);
   }
 }
