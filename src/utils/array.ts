@@ -171,3 +171,21 @@ export function groupBy<T, K extends keyof any>(array: T[], key: (item: T) => K)
     {} as Record<K, T[]>,
   );
 }
+
+export function generateWhile<T>(
+  fn: (index: number) => T,
+  predicate: (item: T) => boolean,
+  options: { start: number } = { start: 0 },
+): T[] {
+  const result: T[] = [];
+  let index = options.start;
+
+  while (true) {
+    const item = fn(index);
+    if (!predicate(item)) break;
+    result.push(item);
+    index++;
+  }
+
+  return result;
+}
