@@ -1,4 +1,5 @@
 import { readLines } from '../../utils/file';
+import { HashSet } from '../../utils/set';
 
 type Map = boolean[][];
 type Dir = 'N' | 'E' | 'S' | 'W';
@@ -60,16 +61,12 @@ function nextVisit(guard: Visit): Visit | null {
   }
 }
 
-function hash(obj: Pos | Visit): string {
-  return JSON.stringify(obj);
+const visits = new HashSet([guard]);
+const positions = new HashSet([guard.pos]);
+
+for (let next = nextVisit(guard); next && !visits.has(next); next = nextVisit(next)) {
+  visits.add(next);
+  positions.add(next.pos);
 }
 
-const visitHashes = new Set<string>([hash(guard)]);
-const posHashes = new Set<string>([hash(guard.pos)]);
-
-for (let next = nextVisit(guard); next && !visitHashes.has(hash(next)); next = nextVisit(next)) {
-  visitHashes.add(hash(next));
-  posHashes.add(hash(next.pos));
-}
-
-console.log(posHashes.size);
+console.log(positions.size);

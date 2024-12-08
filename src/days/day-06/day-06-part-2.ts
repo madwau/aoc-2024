@@ -1,4 +1,5 @@
 import { readLines } from '../../utils/file';
+import { HashSet } from '../../utils/set';
 
 type Map = boolean[][];
 type Dir = 'N' | 'E' | 'S' | 'W';
@@ -66,15 +67,15 @@ function hash(obj: Pos | Visit): string {
 
 function isStuckInLoop(map: Map): boolean {
   let visit: Visit | null = { ...guard };
-  const visitHashes = new Set<string>([hash(visit)]);
+  const visits = new HashSet([visit]);
   while (true) {
     visit = nextVisit(map, visit);
     if (visit === null) {
       return false;
-    } else if (visitHashes.has(hash(visit))) {
+    } else if (visits.has(visit)) {
       return true;
     }
-    visitHashes.add(hash(visit));
+    visits.add(visit);
   }
 }
 
