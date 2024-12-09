@@ -15,10 +15,10 @@ function getFileSystem(): FileSystem {
 function compact(fileSystem: FileSystem): FileSystem {
   return fileSystem.reduce((currentFileSystem, block, index) => {
     if (block === '.') {
-      const lastDigitIndex = currentFileSystem.findLastIndex(isNumber);
-      if (lastDigitIndex > index) {
-        currentFileSystem[index] = currentFileSystem[lastDigitIndex];
-        currentFileSystem[lastDigitIndex] = '.';
+      const lastNumberIndex = currentFileSystem.findLastIndex(isNumber);
+      if (lastNumberIndex > index) {
+        currentFileSystem[index] = currentFileSystem[lastNumberIndex];
+        currentFileSystem[lastNumberIndex] = '.';
       }
     }
     return currentFileSystem;
