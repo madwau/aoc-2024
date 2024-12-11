@@ -24,6 +24,15 @@ export async function readNumericLines<T extends number[][] = number[][]>(
   return lines.map(line => line.split(/\s+/).map(Number)) as T;
 }
 
+export async function readNumericLine<T extends number[] = number[]>(
+  day: string,
+  file: string,
+): Promise<T> {
+  const lines = await readNumericLines<T[]>(day, file);
+  assert.strictEqual(lines.length, 1);
+  return lines[0];
+}
+
 export async function readGrid<T extends string[][] = string[][]>(
   day: string,
   file: string,
