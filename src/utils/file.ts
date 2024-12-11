@@ -31,3 +31,11 @@ export async function readGrid<T extends string[][] = string[][]>(
   const lines = await readLines(day, file);
   return lines.map(line => line.split('')) as T;
 }
+
+export async function readNumericGrid<T extends number[][] = number[][]>(
+  day: string,
+  file: string,
+): Promise<T> {
+  const lines = await readLines(day, file);
+  return lines.map(line => line.split('').map(Number)) as T;
+}
