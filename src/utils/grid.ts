@@ -3,6 +3,10 @@ export type Pos = {
   x: number;
 };
 
+export function equals(a: Pos, b: Pos): boolean {
+  return a.y === b.y && a.x === b.x;
+}
+
 export function adj4(grid: unknown[][], pos: Pos): Pos[] {
   return [
     { y: pos.y - 1, x: pos.x },
