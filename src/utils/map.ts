@@ -13,8 +13,16 @@ export class HashMap<K, V> {
     return this.map.get(this.hash(key));
   }
 
+  delete(key: K) {
+    return this.map.delete(this.hash(key));
+  }
+
   has(key: K) {
     return this.map.has(this.hash(key));
+  }
+
+  values() {
+    return this.map.values();
   }
 
   private hash(key: K): string {
