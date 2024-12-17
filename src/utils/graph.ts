@@ -1,3 +1,5 @@
+import { HashSet } from './set';
+
 type Point = {
   y: number;
   x: number;
@@ -109,4 +111,42 @@ function dfsConnectedComponents<T>(
       dfsConnectedComponents(graph, neighbor, visited, component);
     }
   }
+}
+
+export function dijkstra<T>(
+  neighbors: (node: T) => { node: T; cost: number }[],
+  start: T,
+  isTarget: (node: T) => boolean,
+): number {
+  const distances = new Map<T, number>(); // Map to track the shortest distance to each node
+  const visited = new HashSet<T>(); // Set to track visited nodes
+  const queue: [T, number][] = []; // Priority queue to process nodes [node, distance]
+
+  distances.set(start, 0);
+  queue.push([start, 0]);
+
+  while (queue.length > 0) {
+    queue.sort((a, b) => a[1] - b[1]);
+
+    const [currentNode, currentDist] = queue.shift()!;
+
+    if (visited.has(currentNode)) continue;
+
+    visited.add(currentNode);
+
+    if (isTarget(currentNode)) return currentDist;
+
+    for (const { node: neighbor, cost } of neighbors(currentNode)) {
+      if (visited.has(neighbor)) continue;
+
+      const newDist = currentDist + cost;
+
+      if (newDist < (distances.get(neighbor) ?? Infinity)) {
+        distances.set(neighbor, newDist);
+        queue.push([neighbor, newDist]);
+      }
+    }
+  }
+
+  return Infinity;
 }
