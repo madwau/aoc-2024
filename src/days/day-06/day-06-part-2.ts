@@ -61,10 +61,6 @@ function nextVisit(map: Map, guard: Visit): Visit | null {
   }
 }
 
-function hash(obj: Pos | Visit): string {
-  return JSON.stringify(obj);
-}
-
 function isStuckInLoop(map: Map): boolean {
   let visit: Visit | null = { ...guard };
   const visits = new HashSet([visit]);
