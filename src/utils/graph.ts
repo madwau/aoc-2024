@@ -1,3 +1,4 @@
+import { HashMap } from './map';
 import { HashSet } from './set';
 
 type Point = {
@@ -149,4 +150,39 @@ export function dijkstra<T>(
   }
 
   return Infinity;
+}
+
+export function distances<T>(
+  neighbors: (node: T) => { node: T; cost: number }[],
+  start: T,
+): HashMap<T, number> {
+  const distances = new HashMap<T, number>();
+  const visited = new HashSet<T>();
+  const queue: [T, number][] = [];
+
+  distances.set(start, 0);
+  queue.push([start, 0]);
+
+  while (queue.length > 0) {
+    queue.sort((a, b) => a[1] - b[1]);
+
+    const [currentNode, currentDist] = queue.shift()!;
+
+    if (visited.has(currentNode)) continue;
+
+    visited.add(currentNode);
+
+    for (const { node: neighbor, cost } of neighbors(currentNode)) {
+      if (visited.has(neighbor)) continue;
+
+      const newDist = currentDist + cost;
+
+      if (newDist < (distances.get(neighbor) ?? Infinity)) {
+        distances.set(neighbor, newDist);
+        queue.push([neighbor, newDist]);
+      }
+    }
+  }
+
+  return distances;
 }

@@ -34,6 +34,10 @@ export function add(a: Pos, b: Pos): Pos {
   return { y: a.y + b.y, x: a.x + b.x };
 }
 
+export function manhattan(a: Pos, b: Pos): number {
+  return Math.abs(a.y - b.y) + Math.abs(a.x - b.x);
+}
+
 export function walk(pos: Pos, direction: Direction): Pos {
   switch (direction) {
     case 'N':

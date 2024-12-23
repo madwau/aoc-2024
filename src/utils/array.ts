@@ -1,3 +1,5 @@
+import { HashSet } from './set';
+
 export function range(start: number, end: number): number[] {
   const length = end - start + 1;
   return Array.from({ length }, (_, i) => start + i);
@@ -134,6 +136,15 @@ export function last<T>(array: T[]): T {
 
 export function unique<T>(array: T[]): T[] {
   return [...new Set(array)];
+}
+
+export function hashUnique<T>(array: T[]): T[] {
+  const seen = new HashSet<T>();
+  return array.filter(item => {
+    if (seen.has(item)) return false;
+    seen.add(item);
+    return true;
+  });
 }
 
 export function binaryInsert<T>(array: T[], value: T, compare: (a: T, b: T) => number): void {
