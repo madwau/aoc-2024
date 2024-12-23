@@ -26,6 +26,14 @@ export function at<T>(grid: T[][], pos: Pos): T | undefined {
   return grid[pos.y]?.[pos.x];
 }
 
+export function diff(a: Pos, b: Pos): Pos {
+  return { y: a.y - b.y, x: a.x - b.x };
+}
+
+export function add(a: Pos, b: Pos): Pos {
+  return { y: a.y + b.y, x: a.x + b.x };
+}
+
 export function walk(pos: Pos, direction: Direction): Pos {
   switch (direction) {
     case 'N':
