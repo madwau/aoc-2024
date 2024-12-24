@@ -115,7 +115,7 @@ export function transpose<T>(array: T[][]): T[][] {
   return array[0].map((_, i) => array.map(row => row[i]));
 }
 
-export function isEqual<T extends number | string>(a: T[], b: T[]): boolean {
+export function isEqual<T extends number | bigint | string>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((item, index) => item === b[index]);
 }
 
@@ -199,4 +199,8 @@ export function generateWhile<T>(
   }
 
   return result;
+}
+
+export function endsWith<T extends number | bigint | string>(array: T[], suffix: T[]): boolean {
+  return isEqual(array.slice(-suffix.length), suffix);
 }
