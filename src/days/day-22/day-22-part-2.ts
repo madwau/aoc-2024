@@ -3,17 +3,13 @@ import { sum } from '../../utils/math';
 
 type Sequence = [number, number, number, number];
 
-type History = {
-  prices: string;
-  changes: string;
-};
-
+const SEQUENCE_LENGTH = 4;
 const MAX_ROUNDS = 2000;
 
 const lines = await readLines('day-22', 'input');
 const secrets = lines.map(BigInt);
 
-const histories = new Map<bigint, History>();
+const histories = new Map<bigint, Map<string, number>>();
 
 function next(secret: bigint): bigint {
   secret ^= secret * 64n;
@@ -25,21 +21,20 @@ function next(secret: bigint): bigint {
   return secret;
 }
 
-function normalize(n: number): string {
-  return n >= 0 ? `+${n}` : n.toString();
-}
-
 function computeHistories(): void {
   secrets.forEach(initialSecret => {
+    const history: Map<string, number> = new Map();
+
     let secret = initialSecret;
+    let sequence: number[] = [];
     let price = Number(secret % 10n);
-    const history: History = { prices: '', changes: '' };
 
     for (let round = 0; round < MAX_ROUNDS; round++) {
       secret = next(secret);
       const newPrice = Number(secret % 10n);
-      history.prices += normalize(newPrice);
-      history.changes += normalize(newPrice - price);
+      sequence.push(newPrice - price);
+      const key = sequence.slice(-SEQUENCE_LENGTH).join('');
+      if (!history.has(key)) history.set(key, newPrice);
       price = newPrice;
     }
 
@@ -49,8 +44,7 @@ function computeHistories(): void {
 
 function price(secret: bigint, sequence: Sequence): number {
   const history = histories.get(secret)!;
-  const index = history.changes.indexOf(sequence.map(normalize).join(''));
-  return index === -1 ? 0 : Number(history.prices.slice(index + 6, index + 8));
+  return history.get(sequence.join('')) ?? 0;
 }
 
 function totalPrice(sequence: Sequence): number {
@@ -62,6 +56,7 @@ function bestSequenceAndPrice(): [Sequence, number] {
   let bestSequence: Sequence = [0, 0, 0, 0];
 
   for (let a = -9; a <= 9; a++) {
+    console.log(a);
     for (let b = -9; b <= 9; b++) {
       for (let c = -9; c <= 9; c++) {
         for (let d = -9; d <= 9; d++) {
@@ -80,5 +75,6 @@ function bestSequenceAndPrice(): [Sequence, number] {
 }
 
 computeHistories();
+console.log('Computing histories done');
 
 console.log(bestSequenceAndPrice());
