@@ -6,6 +6,10 @@ export function sum(numbers: number[]) {
   return numbers.reduce((sum, number) => sum + number, 0);
 }
 
+export function bigSum(numbers: bigint[]) {
+  return numbers.reduce((sum, number) => sum + number, 0n);
+}
+
 export function max(numbers: number[]) {
   return numbers.reduce((max, number) => (number > max ? number : max), -Infinity);
 }
