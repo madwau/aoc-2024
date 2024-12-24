@@ -56,7 +56,6 @@ function bestSequenceAndPrice(): [Sequence, number] {
   let bestSequence: Sequence = [0, 0, 0, 0];
 
   for (let a = -9; a <= 9; a++) {
-    console.log(a);
     for (let b = -9; b <= 9; b++) {
       for (let c = -9; c <= 9; c++) {
         for (let d = -9; d <= 9; d++) {
@@ -75,6 +74,5 @@ function bestSequenceAndPrice(): [Sequence, number] {
 }
 
 computeHistories();
-console.log('Computing histories done');
 
 console.log(bestSequenceAndPrice());
