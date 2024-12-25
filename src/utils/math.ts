@@ -34,6 +34,16 @@ export function pairs<T>(array: T[]): [T, T][] {
   return array.flatMap((item, index) => array.slice(index + 1).map<[T, T]>(other => [item, other]));
 }
 
+export function triples<T>(array: T[]): [T, T, T][] {
+  return array.flatMap((item, index) =>
+    array
+      .slice(index + 1)
+      .flatMap((other, otherIndex) =>
+        array.slice(otherIndex + 1).map<[T, T, T]>(another => [item, other, another]),
+      ),
+  );
+}
+
 export function cartesianPower<T>(array: T[], size: number): T[][] {
   return size === 0
     ? [[]]
