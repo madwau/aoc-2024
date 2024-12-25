@@ -76,6 +76,43 @@ function dfs<T>(
   stack.push(node);
 }
 
+export function maximumClique<T extends number | string>(edges: [T, T][]): T[] {
+  const graph = new Map<T, T[]>();
+
+  for (const [from, to] of edges) {
+    graph.set(from, [...(graph.get(from) ?? []), to]);
+    graph.set(to, [...(graph.get(to) ?? []), from]);
+  }
+
+  function bronKerbosch<T>(graph: Map<T, T[]>, R: T[], P: T[], X: T[]): T[] {
+    if (P.length === 0 && X.length === 0) {
+      return R;
+    }
+
+    let maxClique: T[] = [];
+
+    for (const vertex of P) {
+      const neighbors = graph.get(vertex) ?? [];
+      const newR = [...R, vertex];
+      const newP = P.filter(v => neighbors.includes(v));
+      const newX = X.filter(v => neighbors.includes(v));
+
+      const clique = bronKerbosch(graph, newR, newP, newX);
+
+      if (clique.length > maxClique.length) {
+        maxClique = clique;
+      }
+
+      P = P.filter(v => v !== vertex);
+      X = [...X, vertex];
+    }
+
+    return maxClique;
+  }
+
+  return bronKerbosch(graph, [], [...graph.keys()], []);
+}
+
 export function connectedComponents<T extends number | string>(edges: [T, T][]): T[][] {
   const graph = new Map<T, T[]>();
 
