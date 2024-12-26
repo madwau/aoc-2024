@@ -32,6 +32,10 @@ export class HashSet<T> {
     return this.set.has(this.hash(obj));
   }
 
+  delete(obj: T) {
+    return this.set.delete(this.hash(obj));
+  }
+
   get size() {
     return this.set.size;
   }

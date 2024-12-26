@@ -189,6 +189,52 @@ export function dijkstra<T>(
   return Infinity;
 }
 
+export function allShortestPaths<T>(
+  neighbors: (node: T) => { node: T; cost: number }[],
+  start: T,
+  isTarget: (node: T) => boolean,
+): T[][] {
+  const distances = new Map<T, number>(); // Map to track the shortest distance to each node
+  const visited = new Set<T>(); // Set to track visited nodes
+  const queue: [T, number][] = []; // Priority queue to process nodes [node, distance]
+  const paths = new Map<T, T[][]>(); // Map to store all shortest paths to each node
+
+  distances.set(start, 0);
+  paths.set(start, [[start]]);
+  queue.push([start, 0]);
+
+  while (queue.length > 0) {
+    queue.sort((a, b) => a[1] - b[1]);
+
+    const [currentNode, currentDist] = queue.shift()!;
+
+    if (visited.has(currentNode)) continue;
+
+    visited.add(currentNode);
+
+    for (const { node: neighbor, cost } of neighbors(currentNode)) {
+      if (visited.has(neighbor)) continue;
+
+      const newDist = currentDist + cost;
+
+      if (newDist < (distances.get(neighbor) ?? Infinity)) {
+        distances.set(neighbor, newDist);
+        queue.push([neighbor, newDist]);
+        paths.set(
+          neighbor,
+          paths.get(currentNode)!.map(path => [...path, neighbor]),
+        );
+      } else if (newDist === distances.get(neighbor)) {
+        paths.get(neighbor)!.push(...paths.get(currentNode)!.map(path => [...path, neighbor]));
+      }
+    }
+  }
+
+  return Array.from(paths.entries())
+    .filter(([node]) => isTarget(node))
+    .flatMap(([, paths]) => paths);
+}
+
 export function distances<T>(
   neighbors: (node: T) => { node: T; cost: number }[],
   start: T,

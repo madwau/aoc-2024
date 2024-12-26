@@ -9,7 +9,7 @@ export class HashMap<K, V> {
     this.map.set(this.hash(key), value);
   }
 
-  get(key: K) {
+  get(key: K): V {
     return this.map.get(this.hash(key));
   }
 
@@ -23,6 +23,10 @@ export class HashMap<K, V> {
 
   values() {
     return this.map.values();
+  }
+
+  [Symbol.iterator]() {
+    return this.map[Symbol.iterator]();
   }
 
   private hash(key: K): string {
